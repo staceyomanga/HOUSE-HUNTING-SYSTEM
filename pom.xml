@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.hostelfinder</groupId>
-	<artifactId>HOUSE HUNTING SYSTEM</artifactId>
+	<artifactId>hostelfinder</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
