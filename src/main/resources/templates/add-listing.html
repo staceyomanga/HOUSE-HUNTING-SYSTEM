@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Listing</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+    <body>
+<nav>
+    <div style="color:white; font-weight: bold;">Hostel Finder</div>
+    <div><a th:href="@{/landlord/dashboard}">My Dashboard</a></div>
+</nav>
+<div class="container">
+    <h1>Add new Hostel</h1>
+    <form th:action="@{/listing/add}" method="post">
+        <input type="text" name="name" placeholder="Hostel Name" required>
+        <input type="text" name="location" placeholder="location(e.g. Kilimani)" required>
+        <input type="text" name="facilities" placeholder="Facilities(e.g. WiFi,Water)">
+        <input type="text" name="description" placeholder="Description">
+       <button type="submit">Submit for Approval</button>
+    </form>
+</div>
+</body>
+
+</html>

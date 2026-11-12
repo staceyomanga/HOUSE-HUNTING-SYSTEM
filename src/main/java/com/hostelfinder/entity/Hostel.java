@@ -8,12 +8,13 @@ import lombok.Data;
 public class Hostel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long hostelID;
+
     private String name;
     private String location;
     private String description;
     private String facilities;
+    private Double pricePerMonth;
     private String status = "PENDING";
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
