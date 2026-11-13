@@ -6,5 +6,5 @@ import com.hostelfinder.entity.HostelImage;
 import java.util.List;
 
 public interface HostelImageRepository extends JpaRepository<HostelImage, Long>{
-    List<HostelImage>findbyHostel_HostelId(Long hostelId);
+    List<HostelImage>findByHostel_HostelId(Long hostelId);
 }

@@ -37,7 +37,7 @@ public class ListingDetailsController {
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Hostel not found"));
 
         //fetch images for the hostel
-        List<HostelImage> images = hostelImageRepository.findbyHostel_HostelId(id);
+        List<HostelImage> images = hostelImageRepository.findByHostel_HostelId(id);
 
         //Add both hostel and images to the model for Thymeleaf to read
             model.addAttribute("hostel", hostel);
