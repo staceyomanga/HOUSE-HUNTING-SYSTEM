@@ -2,15 +2,18 @@ package com.hostelfinder.controller;
 
 import com.hostelfinder.entity.Hostel;
 import com.hostelfinder.repository.HostelRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ListingController {
 
-    @Autowired
-    private HostelRepository hostelRepository;
+    private final HostelRepository hostelRepository;
+
+    public ListingController(HostelRepository hostelRepository){
+        this.hostelRepository =     hostelRepository;
+    }
 
     @GetMapping("/listing/add")
     public String showAddListingForm() { 

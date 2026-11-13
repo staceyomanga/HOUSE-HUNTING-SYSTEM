@@ -1,38 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login - HOUSE HUNTING SYSTEM</title>
-        <link rel="stylesheet" href="/css/main.css">
-    </head>
-<body>
-        <div class="login-box">
-            <div class="logo">
-                <img src="/images/logo.png" alt="House Hunting Logo">
-            </div>
-            <h2>Login</h2>
-            <form action="/login" method="post">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-
-                <input type="password" id="password" name="password" required>
-                <label class="show-pass">
-                    <input type="checkbox"  onclick="togglePassword()"> Show Password
-                </label>
-          
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-
-                <button type="submit">Login</button>
-            </form>
-            <p>Don't have an account? <a href="/register">Register here</a></p>
-        </div>
-        <script>
-            function togglePassword() {
-                var p = document.getElementById("password");
-                p.type = p.type === "password" ? "text" : "password";
-            }
-        </script>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - HOUSE HUNTING SYSTEM</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body class="bg-login">
+<div class="login-box">
+    <div class="logo">
+        <img th:src="@{/images/logo.png}" alt="House Hunting Logo" class="login-logo">
+    </div>
+    <h2>Login</h2>
+    <form th:action="@{/login}" method="post">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <label class="show-pass">
+            <input type="checkbox"  onclick="togglePassword()"> Show Password
+        </label>
+        <button type="submit">Login</button>
+    </form>
+    <p style="margin-top: 15px; text-align: center;">
+        Don't have an account? <a th:href="@{/register}">Register here</a>
+    </p>
+</div>
+<script>
+    function togglePassword() {
+        var p = document.getElementById("password");
+        p.type = p.type === "password" ? "text" : "password";
+    }
+</script>
 </body>
-</html>
+
