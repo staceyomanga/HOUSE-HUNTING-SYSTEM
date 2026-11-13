@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Send Inquiry</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Contact Landlord</h1>
+        <form th:action="@{/inquiry/send}" method="post">
+            <input type="hidden" name="hostel.hostelId" th:value="${hostelId}">
+            <textarea name="message" rows="5" placeholder="Hi, is this room still available?" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+</body>
+</html>

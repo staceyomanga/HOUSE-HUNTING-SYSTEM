@@ -3,6 +3,7 @@ package com.hostelfinder.repository;
 import com.hostelfinder.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.hostelfinder.entity.Hostel;
+import java.util.List;
 
 import java.util.List;
 
