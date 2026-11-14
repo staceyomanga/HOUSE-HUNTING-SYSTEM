@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class ReviewController {
 
-    private  final ReviewRepository reviewRepository;
+    private final ReviewRepository reviewRepository;
 
-    public ReviewController(ReviewRepository reviewRepository){
+    public ReviewController(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
 
