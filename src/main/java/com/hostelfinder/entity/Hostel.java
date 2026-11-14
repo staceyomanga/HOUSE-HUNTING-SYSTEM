@@ -8,7 +8,7 @@ import lombok.Data;
 public class Hostel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long hostelID;
+    private Long hostelId;
 
     private String name;
     private String location;
