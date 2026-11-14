@@ -2,7 +2,7 @@ package com.hostelfinder.controller;
 
 import com.hostelfinder.entity.Hostel;
 import com.hostelfinder.repository.HostelRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +13,11 @@ import java.util.List;
 @Controller
 public class SearchController {
 
-    @Autowired
-    private HostelRepository hostelRepository;
+    private final HostelRepository hostelRepository;
+
+    public SearchController(HostelRepository hostelRepository){
+        this.hostelRepository = hostelRepository;
+    }
 
     @GetMapping("/search")
     public String searchHostels(@RequestParam(required = false) String location, Model model) {

@@ -28,7 +28,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public String registerUser(
-            @RequestParam("fullname") String fullName,
+            @RequestParam("fullName") String fullName,
             @RequestParam("phone") String phone,
             @RequestParam("email") String email,
             @RequestParam("role") String role,
@@ -77,7 +77,7 @@ public class AuthController {
         return "redirect:/login?error";
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public String logoutUser(HttpSession session) {
         session.invalidate();
         return "redirect:/login?logout";
