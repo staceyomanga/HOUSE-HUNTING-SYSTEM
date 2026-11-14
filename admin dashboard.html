@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav>
+        <div style="color: white; font-weight: bold;">Admin Panel</div>
+        <div><a th:href="@{/logout}" style="color: #e74c3c;">Logout</a></div>
+    </nav>
+
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <p>Approved Listings: <strong th:text="${approvedCount}">0</strong></p>
+
+        <h2>Pending Listings</h2>
+        <table>
+            <thead>
+                <tr><th>Hostel Name</th><th>Location</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+                <tr th:if="${#lists.isEmpty(pendingHostels)}">
+                    <td colspan="3">No listings awaiting approval.</td>
+                </tr>
+                <tr th:each="hostel : ${pendingHostels}">
+                    <td th:text="${hostel.name}">Name</td>
+                    <td th:text="${hostel.location}">Location</td>
+                    <td>
+                        <a th:href="@{/admin/approve/{id}(id=${hostel.hostelId})}"
+                           style="color: green; font-weight: bold;">Approve</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
