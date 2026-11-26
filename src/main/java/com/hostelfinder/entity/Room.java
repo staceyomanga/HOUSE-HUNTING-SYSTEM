@@ -3,9 +3,9 @@ package com.hostelfinder.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity @Table(name = "rooms")
+@Entity
+@Table(name = "rooms")
 @Data
-
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +13,10 @@ public class Room {
 
     private String roomType;
     private Double pricePerMonth;
-    private int capacity;
+    private Integer capacity;
+
+    private boolean isBooked = false;
+    private boolean isOccupied = false;
 
     @ManyToOne
     @JoinColumn(name = "hostel_id", nullable = false)

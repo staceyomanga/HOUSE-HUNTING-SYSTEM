@@ -2,22 +2,23 @@ package com.hostelfinder.service;
 
 import com.hostelfinder.entity.Hostel;
 import com.hostelfinder.repository.HostelRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
-public class SearchService{
+public class SearchService {
 
-    @Autowired
-    private HostelRepository hostelRepository;
+    private final HostelRepository hostelRepository;
 
-    public List<Hostel>search(String location){
-        if(location != null && !location.isEmpty()) {
-            return hostelRepository.findByStatusAndLocationContainingIgnoreCase("APPROVED", location);
-        }
-        return hostelRepository.findByStatus("APPROVED");
+    public SearchService(HostelRepository hostelRepository) {
+        this.hostelRepository = hostelRepository;
+    }
+
+    public List<Hostel> search(String location, Double maxPrice, String roomType) {
+        // Clean up empty strings to null so the query ignores them
+        String cleanLocation = (location != null && !location.isEmpty()) ? location : null;
+        String cleanRoomType = (roomType != null && !roomType.isEmpty()) ? roomType : null;
+
+        return hostelRepository.searchHostels(cleanLocation, maxPrice, cleanRoomType);
     }
 }

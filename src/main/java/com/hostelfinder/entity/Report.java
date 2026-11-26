@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
 
-@Entity @Table(name = "reports")
+@Entity
+@Table(name = "reports")
 @Data
-
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +14,7 @@ public class Report {
 
     private String reason;
     private String status = "OPEN";
-    private  LocalDateTime reportedAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "reporter_id", nullable = false)

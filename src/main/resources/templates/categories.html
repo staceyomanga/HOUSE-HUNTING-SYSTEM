@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Categories</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<nav>
+    <div style="color: white; font-weight: bold;">Admin Panel</div>
+    <div>
+        <a th:href="@{/admin/dashboard}">Dashboard</a>
+        <a th:href="@{/logout}" style="color: #e74c3c; margin-left: 15px;">Logout</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Manage Categories</h1>
+
+    <!-- FR-26: add a category -->
+    <form th:action="@{/admin/categories/add}" method="post">
+        <label>Category Name:
+            <input type="text" name="name" placeholder="Category name" required>
+        </label>
+        <button type="submit">Add Category</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Category</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(categories)}">
+            <td>No categories added yet.</td>
+        </tr>
+        <tr th:each="category : ${categories}">
+            <td th:text="${category.name}">Category</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

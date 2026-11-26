@@ -3,15 +3,16 @@ package com.hostelfinder.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity @Table(name = "hostel_images")
+@Entity
+@Table(name = "hostel_images")
 @Data
-
 public class HostelImage {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imageId;
 
     private String imagePath;
+
     private String caption;
 
     @ManyToOne

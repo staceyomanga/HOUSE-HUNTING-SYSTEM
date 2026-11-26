@@ -3,10 +3,10 @@ package com.hostelfinder.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity @Table(name = "saved_listings")
+@Entity
+@Table(name = "saved_listings")
 @Data
-
-public class SavedListings {
+public class SavedListing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long savedId;

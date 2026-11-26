@@ -1,24 +1,71 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Add Listing</title>
-<link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
-    <body>
+<body>
 <nav>
-    <div style="color:white; font-weight: bold;">Hostel Finder</div>
-    <div><a th:href="@{/landlord/dashboard}">My Dashboard</a></div>
+    <div style="color: white; font-weight: bold;">Hostel Finder</div>
+    <div><a th:href="@{/landlord/dashboard}">Back to Dashboard</a></div>
 </nav>
+
 <div class="container">
-    <h1>Add new Hostel</h1>
-    <form th:action="@{/listing/add}" method="post">
-        <input type="text" name="name" placeholder="Hostel Name" required>
-        <input type="text" name="location" placeholder="location(e.g. Kilimani)" required>
-        <input type="text" name="facilities" placeholder="Facilities(e.g. WiFi,Water)">
-        <input type="text" name="description" placeholder="Description">
-       <button type="submit">Submit for Approval</button>
+    <h1>Add New Hostel</h1>
+
+    <div style="background-color: #e8f4fd; color: #0c5460; padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #bee5eb;">
+        <strong>Important:</strong> Please upload clear images of the hostel exterior, facilities, and rooms. The administrator will review these images during the approval process. Once approved, students will be able to see them.
+    </div>
+
+    <form th:action="@{/listing/add}" method="post" enctype="multipart/form-data">
+
+        <label>Hostel Name:
+            <input type="text" name="name" placeholder="Hostel Name" required>
+        </label>
+
+        <label>Location:
+            <input type="text" name="location" placeholder="Location" required>
+        </label>
+
+        <label>Facilities:
+            <input type="text" name="facilities" placeholder="Facilities (e.g. WiFi, Water)">
+        </label>
+
+        <label>Description:
+            <input type="text" name="description" placeholder="Description">
+        </label>
+
+        <label>Price Per Month:
+            <input type="number" step="0.01" name="pricePerMonth" placeholder="Price" required>
+        </label>
+
+        <!-- Room Inventory Input -->
+        <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 15px 0;">
+            <h3>Room Inventory</h3>
+            <p>Enter how many of each room type you have available:</p>
+
+            <label>Single Rooms:
+                <input type="number" name="singleRooms" value="0" min="0">
+            </label>
+            <label>Bedsitters:
+                <input type="number" name="bedsitters" value="0" min="0">
+            </label>
+            <label>Double Rooms:
+                <input type="number" name="doubleRooms" value="0" min="0">
+            </label>
+        </div>
+
+        <!-- Single Upload Field for Multiple Images -->
+        <label>Upload Photos (Exterior, Facilities, Rooms - Select Multiple):
+            <input type="file" name="images" accept="image/*" multiple required>
+        </label>
+        <p style="font-size: 12px; color: #666; margin-top: -10px; margin-bottom: 15px;">
+            Hold Ctrl (or Cmd) to select multiple images at once. These will be shown to the Admin and later to the students.
+        </p>
+
+        <button type="submit">Submit for Approval</button>
     </form>
 </div>
 </body>
-
 </html>

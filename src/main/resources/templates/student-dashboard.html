@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<nav>
+    <div style="color: white; font-weight: bold;">
+        Hostel Finder
+        <span th:if="${session.fullName != null}" th:text="'| ' + ${session.role} + ' ' + ${session.fullName}"></span>
+    </div>
+    <div>
+        <a th:href="@{/search}">Search Hostels</a>
+        <a href="#" onclick="toggleDarkMode()" style="color: #f1c40f; margin-left: 15px;">🌙 Toggle Theme</a>
+        <a th:href="@{/logout}" style="color: #e74c3c; margin-left: 15px;">Logout</a>
+    </div>
+</nav>
+<div class="bg-student"></div>
+
+<div class="container">
+    <h1>Welcome Back, <span th:text="${session.fullName}">Student</span></h1>
+
+    <!-- FR-06, FR-07: Profile Summary -->
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-content">
+            <h2>My Preferences</h2>
+            <p><strong>Preferred Campus:</strong> <span th:text="${studentProfile.preferredCampus} ?: 'Not set'">Not set</span></p>
+            <p><strong>Max Price:</strong> KES <span th:text="${studentProfile.maxPrice} ?: 'Not set'">Not set</span></p>
+            <p><strong>Room Type:</strong> <span th:text="${studentProfile.preferredRoomType} ?: 'Not set'">Not set</span></p>
+            <a th:href="@{/profile}" class="btn" style="margin-top: 10px;">Edit Profile</a>
+        </div>
+    </div>
+
+    <!-- FR-04: My Bookings -->
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-content">
+            <h2>My Bookings</h2>
+            <table>
+                <thead>
+                <tr><th>Hostel</th><th>Room</th><th>Start Date</th><th>End Date</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(bookings)}">
+                    <td colspan="5">You have no active bookings.</td>
+                </tr>
+                <tr th:each="booking : ${bookings}">
+                    <td th:text="${booking.room.hostel.name}">Hostel Name</td>
+                    <td th:text="${booking.room.roomType}">Room Type</td>
+                    <td th:text="${booking.startDate}">Start</td>
+                    <td th:text="${booking.endDate}">End</td>
+                    <td th:text="${booking.status}">Status</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- FR-17, FR-18: My Inquiries -->
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-content">
+            <h2>My Inquiries</h2>
+            <table>
+                <thead>
+                <tr><th>Hostel</th><th>Message</th><th>Date Sent</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(inquiries)}">
+                    <td colspan="4">You haven't sent any inquiries yet.</td>
+                </tr>
+                <tr th:each="inquiry : ${inquiries}">
+                    <td th:text="${inquiry.hostel.name}">Hostel Name</td>
+                    <td th:text="${inquiry.message}">Message</td>
+                    <td th:text="${inquiry.createdAt}">Date</td>
+                    <td th:text="${inquiry.status}">Status</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- FR-25: Saved Listings -->
+    <div class="card">
+        <div class="card-content">
+            <h2>Saved Listings</h2>
+            <div class="grid">
+                <div class="card" th:each="saved : ${savedListings}">
+                    <div class="card-content">
+                        <h3 th:text="${saved.hostel.name}">Hostel Name</h3>
+                        <p th:text="${saved.hostel.location}">Location</p>
+                        <a th:href="@{/listing/{id}(id=${saved.hostel.hostelId})}" class="btn">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <p th:if="${#lists.isEmpty(savedListings)}">You have no saved listings.</p>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

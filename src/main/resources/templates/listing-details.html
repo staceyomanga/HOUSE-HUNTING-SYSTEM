@@ -1,41 +1,100 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Hostel Details</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
-    <nav>
-        <div style="color: white; font-weight: bold;">Hostel Finder</div>
-        <div><a th:href="@{/search}">Back to Search</a></div>
-    </nav>
-
-    <div class="container">
-        <div th:if="${param.sent}" style="color: green;">Your inquiry was sent.</div>
-        <div th:if="${param.reviewed}" style="color: green;">Thanks for your review.</div>
-
-        <h1 th:text="${hostel.name}">Hostel Name</h1>
-        <p><strong>Status:</strong> <span th:text="${hostel.status}">APPROVED</span></p>
-        <p><strong>Location:</strong> <span th:text="${hostel.location}">Location</span></p>
-        <p><strong>Facilities:</strong> <span th:text="${hostel.facilities}">Facilities</span></p>
-        <p><strong>Description:</strong> <span th:text="${hostel.description}">Description</span></p>
-
-        <h3>Contact Landlord</h3>
-        <a th:href="@{/inquiry/new/{id}(id=${hostel.hostelId})}" class="btn">Send Inquiry</a>
+<nav>
+    <div style="color: white; font-weight: bold;">
+        Hostel Finder
+        <span th:if="${session.fullName != null}" th:text="'| ' + ${session.role} + ' ' + ${session.fullName}"></span>
     </div>
-    <hr>
-    <div class="container">
-        <h3>Leave a Review</h3>
-        <form th:action="@{/review/submit}" method="post">
-            <input type="hidden" name="hostel.hostelId" th:value="${hostel.hostelId}">
-            <label>Rating (1-5):</label>
+    <div>
+        <a th:href="@{/search}">Back to Search</a>
+        <a th:if="${session.role == 'STUDENT'}" th:href="@{/dashboard}">My Dashboard</a>
+        <a th:if="${session.userId == null}" th:href="@{/login}">Login</a>
+        <a href="#" onclick="toggleDarkMode()" style="color: #f1c40f; margin-left: 15px;">🌙 Toggle Theme</a>
+        <a th:href="@{/logout}" th:if="${session.userId != null}" style="color: #e74c3c; margin-left: 15px;">Logout</a>
+    </div>
+</nav>
+
+<div class="bg-details"></div>
+
+<div class="container">
+    <div th:if="${param.sent}" style="color: green;">Your inquiry was sent.</div>
+    <div th:if="${param.reviewed}" style="color: green;">Thanks for your review.</div>
+    <div th:if="${param.status == 'saved'}" style="color: green;">Listing saved to your dashboard.</div>
+    <div th:if="${param.status == 'booked'}" style="color: green;">Booking request sent.</div>
+
+    <h1 th:text="${hostel.name}">Hostel Name</h1>
+
+    <div class="gallery" th:if="${not #lists.isEmpty(images)}">
+        <img th:each="image : ${images}"
+             th:src="@{'/uploads/' + ${image.imagePath}}"
+             alt="Hostel Image" style="width: 200px; margin: 5px;">
+    </div>
+
+    <p><strong>Status:</strong> <span th:text="${hostel.status}">APPROVED</span></p>
+    <p><strong>Location:</strong> <span th:text="${hostel.location}">Location</span></p>
+    <p><strong>Facilities:</strong> <span th:text="${hostel.facilities}">Facilities</span></p>
+    <p><strong>Description:</strong> <span th:text="${hostel.description}">Description</span></p>
+    <p><strong>Price:</strong> KES <span th:text="${hostel.pricePerMonth}">0</span> / month</p>
+
+    <h3>Actions</h3>
+
+    <div th:if="${session.role == 'STUDENT'}">
+        <div style="display: flex; gap: 10px;">
+            <a th:href="@{/inquiry/new/{id}(id=${hostel.hostelId})}" class="btn">Send Inquiry</a>
+            <form th:action="@{/listing/save/{id}(id=${hostel.hostelId})}" method="post">
+                <button type="submit" class="btn" style="background-color: #e67e22;">Save Listing</button>
+            </form>
+        </div>
+    </div>
+
+    <div th:if="${session.userId == null}">
+        <p style="color: #666;"><a th:href="@{/login}">Log in</a> to send an inquiry or save this listing.</p>
+    </div>
+
+    <div th:if="${session.role == 'LANDLORD' || session.role == 'ADMIN'}">
+        <p style="color: #666;">Only students can send inquiries and save listings.</p>
+    </div>
+</div>
+
+<hr>
+
+<div class="container">
+    <h3>Reviews</h3>
+
+    <div th:if="${not #lists.isEmpty(reviews)}" style="margin-bottom: 20px;">
+        <div th:each="review : ${reviews}" style="border-bottom: 1px solid #ccc; padding: 10px 0;">
+            <p><strong>Rating:</strong> <span th:text="${review.rating}">5</span> / 5</p>
+            <p th:text="${review.comment}">Great place!</p>
+            <p style="font-size: 12px; color: #666;">Reviewed by <span th:text="${review.student.fullName}">Student</span></p>
+        </div>
+    </div>
+    <p th:if="${#lists.isEmpty(reviews)}">No reviews yet. Be the first to leave one!</p>
+
+    <div th:if="${session.userId == null}">
+        <p style="color: #666;"><a th:href="@{/login}">Log in</a> to leave a review.</p>
+    </div>
+
+    <div th:if="${session.role == 'LANDLORD' || session.role == 'ADMIN'}">
+        <p style="color: #666;">Only students can leave reviews.</p>
+    </div>
+
+    <form th:if="${session.role == 'STUDENT'}" th:action="@{/review/submit}" method="post">
+        <input type="hidden" name="hostel.hostelId" th:value="${hostel.hostelId}">
+        <label>Rating (1-5):
             <input type="number" name="rating" min="1" max="5" required>
-            <label>Comment:</label>
+        </label>
+        <label>Comment:
             <textarea name="comment" rows="3"></textarea>
-            <button type="submit">Submit Review</button>
-        </form>
-    </div>
-
-
+        </label>
+        <button type="submit">Submit Review</button>
+    </form>
+</div>
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

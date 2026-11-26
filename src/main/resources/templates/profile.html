@@ -1,30 +1,59 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<nav>
+    <div style="color: white; font-weight: bold;">
+        Hostel Finder
+        <span th:if="${session.fullName != null}" th:text="'| ' + ${session.role} + ' ' + ${session.fullName}"></span>
+    </div>
+    <div>
+        <a th:href="@{/search}">Search</a>
+        <a th:href="@{/dashboard}">My Dashboard</a>
+        <a th:href="@{/profile}">My Profile</a>
+        <a href="#" onclick="toggleDarkMode()" style="color: #f1c40f; margin-left: 15px;">🌙 Toggle Theme</a>
+        <a th:href="@{/logout}" style="color: #e74c3c; margin-left: 15px;">Logout</a>
+    </div>
+</nav>
+<div class="bg-profile"></div>
 
-       <title>My Profile</title>
-       <link rel="stylesheet" th:href="@{/css/style.css}">
-    </head>
-    <body>
-           <nav>
-               <div style="color: white; font-weight: bold;">Hostel Finder</div>
-               <div><a th:href="@{/search}">Search</a> <a th:href="@{/logout}" style="color: #e74c3c;">Logout</a></div>
-              </nav>
-              <div class="container">
-                  <h1>My Profile</h1>
-                  <form th:action="@{/profile}" method="post">
-                    <label>Preferred Campus:</label>
-                    <select name="preferredCampus">
+<div style="padding: 10px 20px;">
+    <a th:href="@{/dashboard}" style="color: #3498db; text-decoration: none; font-weight: bold;">&larr; Back to My Dashboard</a>
+</div>
 
-                  <option value="Main Campus">Main Campus</option>
-                  <option value="Town Campus">Town Campus</option>
-                </select>
-                <label>Max Price:</label> 
-                <input type="number" name="maxPrice" placeholder="e.g. 10000">
-                <button type="submit">Save Profile</button> 
-              </form>
-             </div>
+<div class="container">
+    <h1>My Profile</h1>
+    <form th:action="@{/profile}" method="post">
+        <label>Preferred Campus:
+            <select name="preferredCampus">
+                <option value="Main Campus">Main Campus</option>
+                <option value="Town Campus">Town Campus</option>
+                <option value="Lavington Campus">Lavington Campus</option>
+                <option value="Madaraka Campus">Madaraka Campus</option>
+                <option value="Keri Campus">Keri Campus</option>
+            </select>
+        </label>
 
-    </body>             
+        <label>Max Price (KES):
+            <input type="number" name="maxPrice" placeholder="e.g. 10000">
+        </label>
+
+        <label>Preferred Room Type:
+            <select name="roomType">
+                <option value="Single">Single Room</option>
+                <option value="Double">Double Room</option>
+                <option value="Bedsitter">Bedsitter</option>
+            </select>
+        </label>
+
+        <button type="submit">Save Profile</button>
+    </form>
+</div>
+<script th:src="@{/js/main.js}"></script>
+</body>
 </html>
        

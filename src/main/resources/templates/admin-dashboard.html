@@ -1,38 +1,83 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
-    <nav>
-        <div style="color: white; font-weight: bold;">Admin Panel</div>
-        <div><a th:href="@{/logout}" style="color: #e74c3c;">Logout</a></div>
-    </nav>
-
-    <div class="container">
-        <h1>Admin Dashboard</h1>
-        <p>Approved Listings: <strong th:text="${approvedCount}">0</strong></p>
-
-        <h2>Pending Listings</h2>
-        <table>
-            <thead>
-                <tr><th>Hostel Name</th><th>Location</th><th>Action</th></tr>
-            </thead>
-            <tbody>
-                <tr th:if="${#lists.isEmpty(pendingHostels)}">
-                    <td colspan="3">No listings awaiting approval.</td>
-                </tr>
-                <tr th:each="hostel : ${pendingHostels}">
-                    <td th:text="${hostel.name}">Name</td>
-                    <td th:text="${hostel.location}">Location</td>
-                    <td>
-                        <a th:href="@{/admin/approve/{id}(id=${hostel.hostelId})}"
-                           style="color: green; font-weight: bold;">Approve</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<nav>
+    <div style="color: white; font-weight: bold;">Admin Panel</div>
+    <div style="display: flex; align-items: center;">
+        <a th:href="@{/admin/dashboard}" style="position: relative; margin-right: 20px;">
+            Dashboard
+            <span th:if="${pendingCount > 0}"
+                  style="position: absolute; top: -10px; right: -15px; background-color: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold;"
+                  th:text="${pendingCount}">3</span>
+        </a>
+        <a th:href="@{/admin/campuses}">Manage Campuses</a>
+        <a href="#" onclick="toggleDarkMode()" style="color: #f1c40f; margin-left: 15px;">🌙 Toggle Theme</a>
+        <a th:href="@{/logout}" style="color: #e74c3c; margin-left: 15px;">Logout</a>
     </div>
+</nav>
+<div class="bg-admin"></div>
+<div class="container">
+    <h1>Admin Dashboard</h1>
+
+    <h2>Pending Listings</h2>
+    <div th:if="${#lists.isEmpty(pendingHostels)}">
+        <p>No listings awaiting approval.</p>
+    </div>
+
+    <div th:each="hostel : ${pendingHostels}" class="card" style="margin-bottom: 20px; padding: 15px;">
+        <h3 th:text="${hostel.name}">Hostel Name</h3>
+        <p><strong>Location:</strong> <span th:text="${hostel.location}">Location</span></p>
+        <p><strong>Price:</strong> KES <span th:text="${hostel.pricePerMonth}">0</span></p>
+
+        <div style="display: flex; gap: 10px; margin: 10px 0;">
+            <img th:each="image : ${hostel.images}"
+                 th:src="@{'/uploads/' + ${image.imagePath}}"
+                 alt="Hostel Image"
+                 style="width: 150px; height: 100px; object-fit: cover; border-radius: 5px;">
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 15px; align-items: flex-start;">
+            <!-- Approve Button -->
+            <a th:href="@{/admin/approve/{id}(id=${hostel.hostelId})}"
+               style="background-color: green; color: white; padding: 8px 15px; text-decoration: none; border-radius: 5px;">Approve</a>
+
+            <!-- Reject Form with Reason -->
+            <form th:action="@{/admin/reject/{id}(id=${hostel.hostelId})}" method="post" style="display: flex; gap: 5px;">
+                <label>Please Type your Reason for Rejecting this Listing
+                <input type="text" name="reason" placeholder="Reason for rejection" required style="padding: 5px;">
+                </label>
+                <button type="submit" style="background-color: red; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;">Reject</button>
+            </form>
+        </div>
+    </div>
+
+    <h2 style="margin-top: 40px;">Reported Listings</h2>
+    <table th:if="${not #lists.isEmpty(openReports)}">
+        <thead>
+        <tr><th>Hostel</th><th>Reason</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="report : ${openReports}">
+            <td th:text="${report.hostel.name}">Hostel Name</td>
+            <td th:text="${report.reason}">Reason</td>
+            <td>
+                <a th:href="@{/admin/report/resolve/{id}(id=${report.reportId})}"
+                   style="color: blue; font-weight: bold; margin-right: 10px;">Resolve</a>
+
+                <!-- Deactivate Listing Button -->
+                <a th:href="@{/admin/deactivate/{id}(id=${report.hostel.hostelId})}"
+                   style="color: red; font-weight: bold;">Deactivate Listing</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p th:if="${#lists.isEmpty(openReports)}">No open reports.</p>
+</div>
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

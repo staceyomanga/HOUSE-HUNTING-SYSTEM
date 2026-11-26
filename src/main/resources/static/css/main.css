@@ -1,143 +1,178 @@
-/* Base styles and day theme*/
-body{
-    font-family:  Arial, sans-serif ;
-    background-color:#f4f4f4;
+/* =========================================
+   BASE STYLES & DAY THEME
+   ========================================= */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
     color: #333;
     margin: 0;
     padding: 0;
+    transition: background-color 0.4s, color 0.4s;
 }
 
-/* Day/Night Backgrounds */
-.bg-login{
+/* 1. LOGIN & REGISTER BACKGROUND (Day Building) */
+.bg-login {
     background-image: url('/static/images/background-day.png');
-    background-size:cover;
+    background-size: cover;
     background-position: center;
+    background-attachment: fixed;
     height: 100vh;
 }
-body.dark-mode.bg-login{
-    background-image: url("/static/images/background-night.png");
+
+/* 2. SEARCH PAGE BANNER (Search Bar Graphic) */
+.bg-search {
+    background-image: url('/static/images/search-bg.png');
+    background-size: cover;
+    background-position: center;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
 }
-.bg-search{
-    background-image: url("/static/images/hallway.png");
+
+/* 3. LISTING DETAILS BANNER (Day Room) */
+.bg-details {
+    background-image: url('/static/images/room-day.png');
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    transition: background-image 0.4s ease-in-out;
+}
+
+/* 4. DASHBOARD BANNERS */
+.bg-admin {
+    background-image: url('/static/images/office.png');
     background-size: cover;
     background-position: center;
     height: 200px;
 }
-.bg-details{
-    background-image: url("static/images/room-day.png");
+.bg-landlord {
+    background-image: url('/static/images/hostel-sign.png');
     background-size: cover;
     background-position: center;
-    height: 250px;
+    height: 200px;
 }
-body.dark-mode.bg-details{
-    background-image: url("static/images/room-night.png");
+.bg-student {
+    background-image: url('/static/images/handshake.png');
+    background-size: cover;
+    background-position: center;
+    height: 200px;
+}
+.bg-profile {
+    background-image: url('/static/images/campus.png');
+    background-size: cover;
+    background-position: center;
+    height: 200px;
 }
 
-/*Dark Mode Overrides */
-body.dark-mode{
-    background-color: #222;
-    color:#fff ;
+/* =========================================
+   NIGHT THEME OVERRIDES
+   ========================================= */
+body.dark-mode {
+    background-color: #121212;
+    color: #f4f7f6;
+}
 
+body.dark-mode.bg-login {
+    background-image: url('/static/images/background-night.png');
 }
-body.dark-mode .container ,
-    body.dark-mode .login-box,
-    body.dark-mode .card,
-    body.dark-mode table{
-        background-color: #333;
-        color: #fff;
-        border-color: #555;
+
+body.dark-mode .bg-details {
+    background-image: url('/static/images/room-night.png');
 }
+
+body.dark-mode .container,
+body.dark-mode .card,
+body.dark-mode .login-box,
+body.dark-mode table {
+    background-color: #1e1e1e;
+    color: #f4f7f6;
+    border-color: #333;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+body.dark-mode th { background-color: #2d2d2d; }
+body.dark-mode td { border-bottom: 1px solid #333; }
 body.dark-mode input,
 body.dark-mode select,
-body.dark-mode textarea{
-    background-color: #444;
-    color:#fff;
-    border: 1px solid #555;
+body.dark-mode textarea {
+    background-color: #2d2d2d;
+    color: white;
+    border-color: #444;
 }
 
-/*Navigation*/
-nav{
-    background-color: #333;
-    padding:15px;
-    display:flex;
+/* =========================================
+   NAVIGATION & UI COMPONENTS
+   ========================================= */
+nav {
+    background-color: #2c3e50;
+    padding: 15px 30px;
+    display: flex;
     justify-content: space-between;
+    align-items: center;
 }
-nav a{
+nav a {
     color: white;
     text-decoration: none;
-    margin-right: 15px;
+    margin-left: 20px;
+    font-weight: bold;
 }
+nav a:hover { text-decoration: underline; }
 
 /* Login Box */
-.login-box{
-    max-width: 350px;
+.login-box {
+    max-width: 400px;
     margin: 100px auto;
-    padding: 20px;
+    padding: 30px;
     background: white;
-    border-radius: 5px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     text-align: center;
 }
-
-/* Logo Centering */
 .login-box img.login-logo {
     display: block;
-    margin: 0 auto 15px auto;
+    margin: 0 auto 20px auto;
     width: 100px;
     height: auto;
 }
 
 /* Forms & Buttons */
-form {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-}
+form { display: flex; flex-direction: column; text-align: left; }
 input, select, textarea {
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 12px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: 4px;
+    font-size: 14px;
 }
 button {
-    padding: 10px;
+    padding: 12px;
     background-color: #3498db;
     color: white;
     border: none;
-    border-radius: 3px;
+    border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
 }
 button:hover { background-color: #2980b9; }
 
-/* Containers & Cards */
+/* Containers, Grids & Cards */
 .container {
-    max-width: 1000px;
-    margin: 20px auto;
+    max-width: 1200px;
+    margin: 40px auto;
     padding: 20px;
     background: white;
-    border-radius: 5px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px;
-}
-.card {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-}
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.card { background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.card-content { padding: 15px; }
 
 /* Tables */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    margin-top: 15px;
-}
-th, td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-}
-th { background-color: #eee; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+th { background-color: #f2f2f2; }

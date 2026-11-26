@@ -1,11 +1,11 @@
-
 package com.hostelfinder.controller;
 
 import com.hostelfinder.entity.User;
 import com.hostelfinder.service.AuthService;
+import com.hostelfinder.dto.RegisterRequest;
+import com.hostelfinder.dto.LoginRequest;
 
 import jakarta.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,18 +27,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(
-            @RequestParam("fullName") String fullName,
-            @RequestParam("phone") String phone,
-            @RequestParam("email") String email,
-            @RequestParam("role") String role,
-            @RequestParam("password") String password,
-            Model model) {
+    public String registerUser(@ModelAttribute RegisterRequest request, Model model) {
 
         try {
             authService.registerUser(
-                    fullName, phone, email, role, password);
-
+                    request.getFullName(),
+                    request.getPhone(),
+                    request.getEmail(),
+                    request.getRole(),
+                    request.getPassword()
+            );
             return "redirect:/login?registered";
 
         } catch (IllegalArgumentException e) {
@@ -53,27 +51,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String loginUser(
-            @RequestParam("email") String email,
-            @RequestParam("password") String password,
-            HttpSession session) {
+    public String loginUser(@ModelAttribute LoginRequest request, HttpSession session){
 
-        Optional<User> user =
-                authService.loginUser(email, password);
+        Optional<User> user = authService.loginUser(request.getEmail(), request.getPassword());
 
         if (user.isPresent()) {
-            session.setAttribute("userId",
-                    user.get().getUserId());
-
-            session.setAttribute("fullName",
-                    user.get().getFullName());
-
-            session.setAttribute("role",
-                    user.get().getRole());
-
+            session.setAttribute("userId", user.get().getUserId());
+            session.setAttribute("role", user.get().getRole());
+            session.setAttribute("fullName", user.get().getFullName());
+            session.setAttribute("email", user.get().getEmail());
             return "redirect:/search";
         }
-
         return "redirect:/login?error";
     }
 

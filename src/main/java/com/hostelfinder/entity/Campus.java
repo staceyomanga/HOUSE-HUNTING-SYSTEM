@@ -1,11 +1,11 @@
 package com.hostelfinder.entity;
 
 import jakarta.persistence.*;
-import  lombok.Data;
+import lombok.Data;
 
-@Entity @Table(name = "campuses")
+@Entity
+@Table(name = "campuses")
 @Data
-
 public class Campus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

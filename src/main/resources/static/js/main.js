@@ -1,5 +1,5 @@
 function togglePassword(){
-    var passwordField = document.getElementById("password");
+    const passwordField = document.getElementById("password");
     if (passwordField.type === "password"){
     passwordField.type = "text";
     }else{
@@ -8,7 +8,7 @@ function togglePassword(){
 }
 
 function validateSearch() {
-    var price = document.getElementById("maxPrice");
+    const price = document.getElementById("maxPrice");
     if (price && price.value < 0) {
         alert("Price cannot be negative!");
         return false; // Stops the form from submitting
@@ -17,7 +17,7 @@ function validateSearch() {
 }
 
 function toggleDarkMode(){
-    var body = document.body;
+    const body = document.body;
     body.classList.toggle("dark-mode");
 
     if(body.classList.contains("dark-mode")) {

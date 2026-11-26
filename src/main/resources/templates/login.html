@@ -7,10 +7,13 @@
     <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body class="bg-login">
+<div style="position: absolute; top: 20px; right: 20px;">
+    <a href="#" onclick="toggleDarkMode()" style="color: #f1c40f; background: rgba(0,0,0,0.5); padding: 8px 15px; border-radius: 5px; text-decoration: none;">🌙 Toggle Theme</a>
+</div>
 <div class="login-box">
-    <div class="logo">
-        <img th:src="@{/images/logo.png}" alt="House Hunting Logo" class="login-logo">
-    </div>
+
+    <img th:src="@{/images/logo.png}" alt="House Hunting Logo" class="login-logo">
+
     <h2>Login</h2>
     <form th:action="@{/login}" method="post">
         <label for="email">Email:</label>
@@ -26,11 +29,6 @@
         Don't have an account? <a th:href="@{/register}">Register here</a>
     </p>
 </div>
-<script>
-    function togglePassword() {
-        var p = document.getElementById("password");
-        p.type = p.type === "password" ? "text" : "password";
-    }
-</script>
+<script th:src="@{/js/main.js}"></script>
 </body>
-
+</html>

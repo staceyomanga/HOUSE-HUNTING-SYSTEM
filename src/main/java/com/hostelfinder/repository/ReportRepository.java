@@ -3,4 +3,10 @@ package com.hostelfinder.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.hostelfinder.entity.Report;
 
-public interface ReportRepository extends JpaRepository <Report, Long>{}
+import java.util.List;
+
+
+public interface ReportRepository extends JpaRepository <Report, Long>{
+
+    List<Report> findByStatus(String status);
+}

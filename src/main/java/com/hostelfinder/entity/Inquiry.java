@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
 
-@Entity @Table(name = "inquiries")
+@Entity
+@Table(name = "inquiries")
 @Data
-
 public class Inquiry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +14,7 @@ public class Inquiry {
 
     private String message;
     private String status = "SENT";
-    private  LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)

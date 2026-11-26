@@ -3,9 +3,9 @@ package com.hostelfinder.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity @Table(name ="student_profiles")
+@Entity
+@Table(name = "student_profiles")
 @Data
-
 public class StudentProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

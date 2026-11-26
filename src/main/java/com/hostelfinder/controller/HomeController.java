@@ -1,5 +1,6 @@
 package com.hostelfinder.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -7,7 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/")
-    public String home() {
-        return "redirect:/login";
+    public String home(HttpSession session) {
+        if (session.getAttribute("userId") != null) {
+            return "redirect:/search";
+        }
+        return "index";
     }
 }

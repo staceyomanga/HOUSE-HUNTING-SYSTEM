@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Campuses</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<nav>
+    <div style="color: white; font-weight: bold;">Admin Panel</div>
+    <div>
+        <a th:href="@{/admin/dashboard}">Dashboard</a>
+        <a th:href="@{/logout}" style="color: #e74c3c; margin-left: 15px;">Logout</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Manage Campuses</h1>
+
+    <!-- FR-26: add a campus -->
+    <form th:action="@{/admin/campuses/add}" method="post">
+        <label>Campus Name:
+            <input type="text" name="name" placeholder="Campus name" required>
+        </label>
+        <button type="submit">Add Campus</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Campus</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(campuses)}">
+            <td>No campuses added yet.</td>
+        </tr>
+        <tr th:each="campus : ${campuses}">
+            <td th:text="${campus.name}">Campus</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

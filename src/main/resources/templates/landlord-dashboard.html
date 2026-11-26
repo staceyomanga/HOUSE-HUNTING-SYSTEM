@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<nav>
+    <div style="color: white; font-weight: bold;">
+        Hostel Finder
+        <span th:if="${session.fullName != null}" th:text="'| ' + ${session.role} + ' ' + ${session.fullName}"></span>
+    </div>
+    <div>
+        <a th:href="@{/listing/add}">+ Add Listing</a>
+        <a href="#" onclick="toggleDarkMode()" style="color: #f1c40f; margin-left: 15px;">🌙 Toggle Theme</a>
+        <a th:href="@{/logout}" style="color: #e74c3c; margin-left: 15px;">Logout</a>
+    </div>
+</nav>
+<div class="bg-landlord"></div>
+<div class="container">
+    <script th:if="${param.success}">
+        alert("Status updated successfully!");
+    </script>
+
+    <h1>My Listings</h1>
+
+    <!-- Global Stats Row -->
+    <div style="display: flex; gap: 20px; margin-bottom: 30px;">
+        <div class="card" style="padding: 20px; flex: 1; text-align: center;">
+            <h3>Total Rooms</h3>
+            <h2 th:text="${globalTotal}">0</h2>
+        </div>
+        <div class="card" style="padding: 20px; flex: 1; text-align: center;">
+            <h3>Available <span style="display:inline-block; width:12px; height:12px; background:green; border-radius:50%;"></span></h3>
+            <h2 th:text="${globalAvailable}">0</h2>
+        </div>
+        <div class="card" style="padding: 20px; flex: 1; text-align: center;">
+            <h3>Booked <span style="display:inline-block; width:12px; height:12px; background:orange; border-radius:50%;"></span></h3>
+            <h2 th:text="${globalBooked}">0</h2>
+        </div>
+        <div class="card" style="padding: 20px; flex: 1; text-align: center;">
+            <h3>Occupied <span style="display:inline-block; width:12px; height:12px; background:red; border-radius:50%;"></span></h3>
+            <h2 th:text="${globalOccupied}">0</h2>
+        </div>
+    </div>
+
+    <!-- Detailed Table -->
+    <table>
+        <thead>
+        <tr>
+            <th>Hostel Name</th>
+            <th>Total Rooms</th> <!-- NEW COLUMN ADDED HERE -->
+            <th>Current Status</th>
+            <th>Update Occupancy</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(hostels)}">
+            <td colspan="4">You have no listings yet.</td>
+        </tr>
+        <tr th:each="hostel : ${hostels}">
+            <td th:text="${hostel.name}">Name</td>
+
+            <!-- NEW DATA ROW for Total Rooms -->
+            <td th:text="${hostel.rooms.size()}">0</td>
+
+            <td>
+                <span style="color: green;">Avail: <span th:text="${hostel.availableCount}">0</span></span> |
+                <span style="color: orange;">Booked: <span th:text="${hostel.bookedCount}">0</span></span> |
+                <span style="color: red;">Occ: <span th:text="${hostel.occupiedCount}">0</span></span>
+                <br>
+                <strong th:text="${hostel.status}"
+                        th:style="${hostel.status == 'APPROVED' ? 'color: green;' : (hostel.status == 'REJECTED' ? 'color: red;' : 'color: orange;')}">
+                    PENDING
+                </strong>
+            </td>
+            <td>
+                <div th:if="${hostel.status == 'REJECTED'}" style="color: red; margin-bottom: 10px; font-size: 12px;">
+                    <strong>Reason:</strong> <span th:text="${hostel.rejectionReason}"></span>
+                </div>
+
+                <form th:if="${hostel.status != 'REJECTED'}" th:action="@{/landlord/update-status/{id}(id=${hostel.hostelId})}" method="post" style="display:flex; gap:5px; align-items:center; flex-wrap: wrap;">
+                    <label style="font-size:12px; margin:0;">Change Occ:
+                        <input type="number" name="occupiedChange" value="0" style="width:60px; padding:2px;">
+                    </label>
+                    <label style="font-size:12px; margin:0;">Change Booked:
+                        <input type="number" name="bookedChange" value="0" style="width:60px; padding:2px;">
+                    </label>
+                    <button type="submit" style="padding: 3px 8px; font-size: 12px; background-color: #3498db; color: white; border: none; border-radius: 3px; cursor: pointer;">Update</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

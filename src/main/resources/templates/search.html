@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Hostels</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<nav>
+    <div style="color: white; font-weight: bold;">
+        Hostel Finder
+        <span th:if="${session.fullName != null}" th:text="'| ' + ${session.role} + ' ' + ${session.fullName}"></span>
+    </div>
+    <div>
+        <a th:href="@{/search}">Search</a>
+        <a th:if="${session.role == 'STUDENT'}" th:href="@{/dashboard}">My Dashboard</a>
+        <a th:if="${session.role == 'STUDENT'}" th:href="@{/profile}">My Profile</a>
+        <a th:if="${session.role == 'LANDLORD'}" th:href="@{/landlord/dashboard}">My Listings</a>
+        <a th:if="${session.role == 'ADMIN'}" th:href="@{/admin/dashboard}">Admin Panel</a>
+        <a href="#" onclick="toggleDarkMode()" style="color: #f1c40f; margin-left: 15px;">🌙 Toggle Theme</a>
+        <a th:href="@{/logout}" style="color: #e74c3c; margin-left: 15px;">Logout</a>
+    </div>
+</nav>
+
+<div class="bg-search">
+    <h1>Find Your Next Home</h1>
+</div>
+
+<div class="container">
+    <form th:action="@{/search}" method="get" style="margin-bottom: 20px;">
+        <label>Location:
+            <input type="text" name="location" placeholder="e.g. Kilimani" th:value="${location}">
+        </label>
+        <label>Max Price (KES):
+            <input type="number" name="maxPrice" placeholder="e.g. 15000" th:value="${maxPrice}">
+        </label>
+        <label>Room Type:
+            <select name="roomType">
+                <option value="">Any</option>
+                <option value="Single" th:selected="${roomType == 'Single'}">Single Room</option>
+                <option value="Bedsitter" th:selected="${roomType == 'Bedsitter'}">Bedsitter</option>
+                <option value="Double" th:selected="${roomType == 'Double'}">Double Room</option>
+            </select>
+        </label>
+        <button type="submit">Filter</button>
+    </form>
+
+    <p>Total hostels found: <strong th:text="${totalCount}">0</strong></p>
+
+    <div class="grid">
+        <div class="card" th:each="hostel : ${hostels}">
+            <div class="card-content">
+                <h3 th:text="${hostel.name}">Hostel Name</h3>
+                <p><strong>Location:</strong> <span th:text="${hostel.location}">Location</span></p>
+                <p><strong>Price:</strong> KES <span th:text="${hostel.pricePerMonth}">0</span> / month</p>
+                <a th:href="@{/listing/{id}(id=${hostel.hostelId})}" class="btn" style="display: inline-block; margin-top: 10px;">View Details</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

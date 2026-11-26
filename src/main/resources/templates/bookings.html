@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<nav>
+    <div style="color: white; font-weight: bold;">Hostel Finder</div>
+    <div>
+        <a th:href="@{/search}">Back to Search</a>
+        <a th:href="@{/logout}" style="color: #e74c3c; margin-left: 15px;">Logout</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Bookings</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Hostel</th>
+            <th>Room Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(bookings)}">
+            <td colspan="5">No booking requests yet.</td>
+        </tr>
+        <tr th:each="booking : ${bookings}">
+            <td th:text="${booking.room.hostel.name}">Hostel</td>
+            <td th:text="${booking.room.roomType}">Room Type</td>
+            <td th:text="${booking.startDate}">Start</td>
+            <td th:text="${booking.endDate}">End</td>
+            <td th:text="${booking.status}">PENDING</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

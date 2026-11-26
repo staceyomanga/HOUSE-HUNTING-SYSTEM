@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Finder</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<nav>
+    <div style="color: white; font-weight: bold;">Hostel Finder</div>
+    <div>
+        <a th:href="@{/search}">Browse Hostels</a>
+        <a th:href="@{/login}">Login</a>
+        <a th:href="@{/register}">Register</a>
+    </div>
+</nav>
+
+<div class="container" style="text-align: center;">
+    <img th:src="@{/images/logo.png}" alt="Hostel Finder Logo" class="login-logo">
+
+    <h1>Find Student Accommodation Near Your Campus</h1>
+    <p>Search, compare and enquire about hostels without moving from place to place.</p>
+
+    <p>
+        <a th:href="@{/search}" class="btn">Browse Hostels</a>
+        <a th:href="@{/register}" class="btn">Create an Account</a>
+    </p>
+
+    <h2 style="margin-top: 40px;">How It Works</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>For Students</th>
+            <th>For Landlords</th>
+            <th>For Administrators</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Search by location and price, view hostel details and photos, send inquiries and leave reviews.</td>
+            <td>Add hostel listings and track their approval status from your dashboard.</td>
+            <td>Approve listings, resolve reports and manage campuses.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p style="margin-top: 30px;">
+        Already have an account? <a th:href="@{/login}">Login here</a>
+    </p>
+</div>
+</body>
+</html>

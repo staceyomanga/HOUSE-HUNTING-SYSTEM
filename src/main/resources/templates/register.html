@@ -1,46 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - HOUSE HUNTING SYSTEM</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <title>Register - Hostel Finder</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body class="bg-login">
+<div style="position: absolute; top: 20px; right: 20px;">
+    <a href="#" onclick="toggleDarkMode()" style="color: #f1c40f; background: rgba(0,0,0,0.5); padding: 8px 15px; border-radius: 5px; text-decoration: none;">🌙 Toggle Theme</a>
+</div>
 <div class="login-box">
-    <img src="/images/logo.png" alt="House Hunting Logo" class="login-logo">
+    <img th:src="@{/images/logo.png}" alt="Hostel Finder Logo" class="login-logo">
     <h2>Create Account</h2>
-    <form action="/register" method="post">
 
-        <label>
-            <input type="text" name="fullname" placeholder="Full Name" required>
+    <form th:action="@{/register}" method="post">
+        <label>Full Name:
+            <input type="text" name="fullName" placeholder="Enter your full name" required>
         </label>
-        <label>
-            <input type="text" name="phone" placeholder="Phone Number" required>
+
+        <label>Phone Number:
+            <input type="text" name="phone" placeholder="Enter your phone number" required>
         </label>
-        <label>
-            <input type="email" name="email" placeholder="Email" required>
+
+        <label>Email:
+            <input type="email" name="email" placeholder="Enter your email" required>
         </label>
-        <label>
+
+        <label>Select Your Role:
             <select name="role" required>
-                <option value="">Select Role</option>
-                <option value="STUDENT">  Tenant </option>
-                <option value="LANDLORD"> Landlord </option>
+                <option value="" disabled selected>-- Choose Account Type --</option>
+                <option value="STUDENT">Tenant (Student)</option>
+                <option value="LANDLORD">Landlord</option>
             </select>
         </label>
 
-        <label>
-            <input type="password"  name="password" placeholder="Password" required>
+        <label>Password:
+            <input type="password" id="password" name="password" placeholder="Create a password" required>
+        </label>
+
+        <label class="show-pass">
+            <input type="checkbox" onclick="togglePassword()"> Show Password
         </label>
 
         <button type="submit">Register</button>
-
-
-
     </form>
-    <p class="switch">
-        Already have an account? <a href="/login">Login here</a>
+
+    <p style="margin-top: 15px; text-align: center;">
+        Already have an account? <a th:href="@{/login}">Login here</a>
     </p>
 </div>
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

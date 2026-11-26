@@ -1,15 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Send Inquiry</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
+    <nav>
+        <div style="color: white; font-weight: bold;">Hostel Finder</div>
+        <div><a th:href="@{/search}">Back to Search</a></div>
+    </nav>
     <div class="container">
         <h1>Contact Landlord</h1>
         <form th:action="@{/inquiry/send}" method="post">
             <input type="hidden" name="hostel.hostelId" th:value="${hostelId}">
+
+            <label>Your Message
             <textarea name="message" rows="5" placeholder="Hi, is this room still available?" required></textarea>
+            </label>
+
             <button type="submit">Send Message</button>
         </form>
     </div>

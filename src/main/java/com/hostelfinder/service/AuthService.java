@@ -16,10 +16,11 @@ public class AuthService {
             new BCryptPasswordEncoder();
 
     public AuthService(UserRepository userRepository) {
+
         this.userRepository = userRepository;
     }
 
-    public User registerUser(String fullName, String phone,
+    public void registerUser(String fullName, String phone,
                              String email, String role, String password) {
 
         if (userRepository.findByEmail(email).isPresent()) {
@@ -33,17 +34,13 @@ public class AuthService {
         user.setEmail(email);
         user.setRole(role);
         user.setPasswordHash(passwordEncoder.encode(password));
-
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     public Optional<User> loginUser(String email, String password) {
-
         Optional<User> user = userRepository.findByEmail(email);
 
-        if (user.isPresent() &&
-                passwordEncoder.matches(password,
-                        user.get().getPasswordHash())) {
+        if (user.isPresent() && passwordEncoder.matches(password, user.get().getPasswordHash())) {
             return user;
         }
 
